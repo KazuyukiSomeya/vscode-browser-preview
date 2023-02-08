@@ -7,7 +7,7 @@ export default class TargetTreeProvider implements vscode.TreeDataProvider<objec
   constructor() {}
 
   refresh(): void {
-    this._onDidChangeTreeData.fire();
+    this._onDidChangeTreeData.fire({});
   }
 
   getTreeItem(element: object): vscode.TreeItem {
@@ -18,7 +18,7 @@ export default class TargetTreeProvider implements vscode.TreeDataProvider<objec
     vscode.commands.executeCommand('browser-preview.openPreview');
     vscode.commands.executeCommand('workbench.view.explorer');
 
-    this._onDidChangeTreeData.fire(); // Make sure collection is not cached.
+    this._onDidChangeTreeData.fire({}); // Make sure collection is not cached.
     return Promise.reject([]);
   }
 }

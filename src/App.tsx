@@ -395,7 +395,7 @@ class App extends React.Component<any, IState> {
     }
   }
 
-  private async updateState(newState: any) {
+  private async updateState(newState: any): Promise<void> {
     return new Promise((resolve, reject) => {
       this.setState(newState, () => {
         this.sendStatetoHost();

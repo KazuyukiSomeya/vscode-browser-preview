@@ -1,9 +1,5 @@
 import * as React from 'react';
-import {
-  IContextMenu,
-  IContextMenuProps,
-  ContextMenuItemsType
-} from './contextmenu-models';
+import { IContextMenu, IContextMenuProps, ContextMenuItemsType } from './contextmenu-models';
 import ContextMenuItem from './contextmenuItem';
 
 class ContextMenu extends React.Component<IContextMenuProps, IContextMenu> {
@@ -61,10 +57,7 @@ class ContextMenu extends React.Component<IContextMenuProps, IContextMenu> {
   }
 
   componentWillReceiveProps(nextProps: IContextMenuProps) {
-    if (
-      nextProps.position.x !== this.state.position.x ||
-      nextProps.position.y !== this.state.position.y
-    ) {
+    if (nextProps.position.x !== this.state.position.x || nextProps.position.y !== this.state.position.y) {
       this.setState({
         position: nextProps.position
       });
@@ -89,29 +82,18 @@ class ContextMenu extends React.Component<IContextMenuProps, IContextMenu> {
     let _menuItems = [...this.state.menuItems];
 
     // Cut
-    let cut = this.state.menuItems.find(
-      (x) => x.itemType === ContextMenuItemsType.Cut
-    );
-    let cutIndex = this.state.menuItems.findIndex(
-      (x) => x.itemType === ContextMenuItemsType.Cut
-    );
+    let cut = this.state.menuItems.find((x) => x.itemType === ContextMenuItemsType.Cut);
+    let cutIndex = this.state.menuItems.findIndex((x) => x.itemType === ContextMenuItemsType.Cut);
 
     // Copy
-    let copy = this.state.menuItems.find(
-      (x) => x.itemType === ContextMenuItemsType.Copy
-    );
-    let copyIndex = this.state.menuItems.findIndex(
-      (x) => x.itemType === ContextMenuItemsType.Copy
-    );
+    let copy = this.state.menuItems.find((x) => x.itemType === ContextMenuItemsType.Copy);
+    let copyIndex = this.state.menuItems.findIndex((x) => x.itemType === ContextMenuItemsType.Copy);
 
     // Delete
-    let deleteItem = this.state.menuItems.find(
-      (x) => x.itemType === ContextMenuItemsType.Delete
-    );
-    let deleteItemIndex = this.state.menuItems.findIndex(
-      (x) => x.itemType === ContextMenuItemsType.Delete
-    );
-    if (window.getSelection().toString().length > 0) {
+    let deleteItem = this.state.menuItems.find((x) => x.itemType === ContextMenuItemsType.Delete);
+    let deleteItemIndex = this.state.menuItems.findIndex((x) => x.itemType === ContextMenuItemsType.Delete);
+    let selection = window.getSelection();
+    if (selection !== null && selection.toString().length > 0) {
       if (cut) {
         _menuItems[cutIndex].isDisabled = false;
         this.setState({ menuItems: _menuItems });
@@ -144,24 +126,13 @@ class ContextMenu extends React.Component<IContextMenuProps, IContextMenu> {
     }
 
     // Paste
-    let paste = this.state.menuItems.find(
-      (x) => x.itemType === ContextMenuItemsType.Paste
-    );
-    let pasteIndex = this.state.menuItems.findIndex(
-      (x) => x.itemType === ContextMenuItemsType.Paste
-    );
+    let paste = this.state.menuItems.find((x) => x.itemType === ContextMenuItemsType.Paste);
+    let pasteIndex = this.state.menuItems.findIndex((x) => x.itemType === ContextMenuItemsType.Paste);
 
     // Paste & Go
-    let pasteGo = this.state.menuItems.find(
-      (x) => x.itemType === ContextMenuItemsType.PasteAndGo
-    );
-    let pasteGoIndex = this.state.menuItems.findIndex(
-      (x) => x.itemType === ContextMenuItemsType.PasteAndGo
-    );
-    if (
-      this.props.onActionInvoked &&
-      (await this.props.onActionInvoked('readClipboard'))
-    ) {
+    let pasteGo = this.state.menuItems.find((x) => x.itemType === ContextMenuItemsType.PasteAndGo);
+    let pasteGoIndex = this.state.menuItems.findIndex((x) => x.itemType === ContextMenuItemsType.PasteAndGo);
+    if (this.props.onActionInvoked && (await this.props.onActionInvoked('readClipboard'))) {
       if (paste) {
         _menuItems[pasteIndex].isDisabled = false;
         this.setState({ menuItems: _menuItems });

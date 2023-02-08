@@ -109,7 +109,7 @@ async function setupServices(liveShare: vsls.LiveShare, windowManager: BrowserVi
   handleLocalWindowCreation(service!, liveShare, windowManager);
 }
 
-function sessionStarted(liveShare: vsls.LiveShare) {
+function sessionStarted(liveShare: vsls.LiveShare): Promise<void> {
   return new Promise((resolve) => {
     if (liveShare.session.id) {
       resolve();
@@ -177,21 +177,19 @@ function handleLocalWindowCreation(
 
     // Listen for any local browser interactions,
     // and synronize them to all other guests.
-    window.onAny(
-      (type: string | string[], ...params: any[]): void => {
-        if (!DISPATCHED_EVENTS.includes(type.toString())) {
-          return;
-        }
-
-        log('Sending client event', type, params);
-
-        service.notify(NOTIFICATION_WINDOW_INTERACTION, {
-          peerNumber: liveShare.session.peerNumber,
-          data: { params: params[0], type },
-          id: window.id
-        });
+    window.onAny((type: string | string[], ...params: any[]): void => {
+      if (!DISPATCHED_EVENTS.includes(type.toString())) {
+        return;
       }
-    );
+
+      log('Sending client event', type, params);
+
+      service.notify(NOTIFICATION_WINDOW_INTERACTION, {
+        peerNumber: liveShare.session.peerNumber,
+        data: { params: params[0], type },
+        id: window.id
+      });
+    });
   });
 }
 

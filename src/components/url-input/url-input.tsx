@@ -160,6 +160,7 @@ class UrlInput extends React.Component<any, IUrlInputState> {
 
   private handleContextMenu(e: React.MouseEvent<HTMLInputElement>) {
     e.preventDefault();
+    let selection = window.getSelection() || '';
     this.setState({
       urlSelectionStart: (e.currentTarget as HTMLInputElement).selectionStart,
       urlSelectionEnd: (e.currentTarget as HTMLInputElement).selectionEnd,
@@ -170,9 +171,7 @@ class UrlInput extends React.Component<any, IUrlInputState> {
           x: e.clientX,
           y: e.clientY
         },
-        selectedUrlInput: this.state.isFocused
-          ? window.getSelection().toString()
-          : ''
+        selectedUrlInput: this.state.isFocused ? selection.toString() : ''
       }
     });
   }
